@@ -6,7 +6,7 @@ from data_preprocessing import load_and_prepare_data, add_elevation_data, handle
 from sklearn.neural_network import MLPClassifier
 from util import save_predictions, save_model
 from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold
-from evaluation import evaluate_model, display_confusion_matrix, calculate_vif, display_evaluation_results, plot_roc_curve, plot_learning_curve
+from evaluation import evaluate_model, output_confusion_matrix, calculate_vif, output_evaluation_results, plot_roc_curve, plot_learning_curve
 
 
 # Data File - Dataset to be trained on
@@ -15,15 +15,15 @@ data_file = 'data/finaldata_impervious_elevation.csv'
 output_file = 'data/test1.csv'
 
 # Model File - The Saved Model that will try to be loaded if the flag below is set to True
-model_file = 'models/AdamManualModel'
+model_file = 'models/101524Model'
 # Set flag to decide if a saved model should be used
-use_saved_model = True  # True to load the saved model, or False to train a new one
+use_saved_model = False  # True to load the saved model, or False to train a new one
 
 
 # Preprocessing Data
-flood_noflood = load_and_prepare_data(data_file)
-flood_noflood = add_elevation_data(flood_noflood)
-flood_noflood = handle_missing_values(flood_noflood, -99999)
+dataset = load_and_prepare_data(data_file)
+dataset = add_elevation_data(dataset)
+dataset = handle_missing_values(dataset, -99999)
 
 # Relevant features that will be used
 feature_vars = [
@@ -32,21 +32,24 @@ feature_vars = [
     'elevation',
     '%_imperviousarea_15mbuffer'
 ]
+# Features Used By Team:
+# feature_vars = ['elevation', '%_residential_population_within300m_busyroadway', '%_busy_roadway_bordered_<25_percent_treebuffer', 'residential_population_within_300m_of_busy_road', 'residential_population_within_300m_of_busy_road_with_less_than_ 25percent_tree_buffer', 'total_pop_under_age_1']
+
 
 # Scales Features
-X = scale_features(flood_noflood, feature_vars)
-y = flood_noflood['label']
+X = scale_features(dataset, feature_vars)
+y = dataset['label']
 
 # Splits data into two groups (As of writing this, its 70% training, 30% testing)
 X_train, X_test, y_train, y_test, train_index, test_index = train_test_split(
-    X, y, flood_noflood.index, test_size=0.30, random_state=42
+    X, y, dataset.index, test_size=0.30, random_state=42
 )
 
 
-def train_model(X, y):
+def train_model(data, labels):
     """
     Update Log:
-    10/15/24 Moved from model_training to here to simplify files.
+    10/15/24 Moved from model_training to here to simplify files. Converted Comments into Docstrings
 
     Solver: lbfgs, adam, sgd
     Hidden_Layer_Sizes: Think of this as neurons connecting, and each comma makes a new layer
@@ -56,7 +59,7 @@ def train_model(X, y):
     Random State: Reproducible but still random
     Learning Rate: How fast it learns
 
-    Trains an MLPClassifier with predefined parameters on the given data.
+    Function: Trains an MLPClassifier with predefined parameters on the given data.
 
     Parameters:
     - X: Data for training.
@@ -66,16 +69,16 @@ def train_model(X, y):
     - mlp: Trained model.
     """
     mlp = MLPClassifier(
-        solver='adam',
-        hidden_layer_sizes=(15, 8,),
-        max_iter=4000,
-        alpha=0.5,
+        solver='lbfgs',
+        hidden_layer_sizes=(8, 4,),
+        max_iter=2000,
+        alpha=0.1,
         activation='relu',
         tol=1e-5,
         random_state=4,
-        learning_rate_init=0.005
+        learning_rate_init=0.001
     )
-    mlp.fit(X, y)
+    mlp.fit(data, labels)
     return mlp
 
 
@@ -109,17 +112,17 @@ predictions = model.predict(X_test)
 save_predictions(predictions, test_index=X_test.index, output_file=output_file)
 
 # Shows Model Performance
-display_evaluation_results(evaluation_results)
+output_evaluation_results(evaluation_results)
 # Shows Confusion Matrix
 confusion_matrix = evaluation_results["Confusion Matrix"]
-display_confusion_matrix(confusion_matrix)
+output_confusion_matrix(confusion_matrix)
 
 # VIF Results
-vif_data = calculate_vif(flood_noflood, feature_vars)
+vif_data = calculate_vif(dataset, feature_vars)
 
 # Correlation analysis
 # Checks how much a variable has a correlation with Label
-correlation_matrix = flood_noflood[feature_vars + ['label']].corr()
+correlation_matrix = dataset[feature_vars + ['label']].corr()
 correlation_with_label = correlation_matrix['label'].drop('label')
 print("\nCorrelation of Features with the Label:")
 print(correlation_with_label)

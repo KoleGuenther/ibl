@@ -11,7 +11,7 @@ from sklearn.model_selection import learning_curve
 def evaluate_model(model, X_test, y_test):
     """
     Update Log:
-    10/15/24 Combines all predictions between the confusion matrix, part 1 and part 2, as well as making the model predict.
+    10/15/24 Combines all predictions between the confusion matrix, part 1 and part 2, as well as making the model predict. Added Docstrings
 
     Function: Evaluates the model with a bunch of different stats.
 
@@ -49,7 +49,7 @@ def evaluate_model(model, X_test, y_test):
     }, predict_prob_mlp
 
 
-def display_evaluation_results(evaluation_results):
+def output_evaluation_results(evaluation_results):
     """
     Update Log:
     10/15/24 Combined code that showcased Accuracy, Precision, Recall, and F1-Score.
@@ -72,7 +72,7 @@ def display_evaluation_results(evaluation_results):
     print(f"{'-'*24}\n")
 
 
-def display_confusion_matrix(conf_matrix):
+def output_confusion_matrix(conf_matrix):
     """
     Update Log:
     10/15/24 Created from old code to make a nice looking confusion matrix to showcase more readably.
@@ -99,7 +99,7 @@ def display_confusion_matrix(conf_matrix):
 def calculate_vif(df, features):
     """
     Update Log:
-    10/15/24 Moved from main.py to evaluation.py to simplify
+    10/15/24 Moved from main.py to evaluation.py to simplify. Added Docstrings
 
     Function: Calculates the Variable Inflation Factor
     Explanation: This essentially shows how much variables relate to each other, high values (above 10) indicates there could be problems.
@@ -122,7 +122,7 @@ def calculate_vif(df, features):
 def plot_roc_curve(y_test, predict_prob_mlp):
     """
     Update Log:
-    10/15/24 Moved from main.py to evaluation.py
+    10/15/24 Moved from main.py to evaluation.py. Added Docstrings
 
     Function: Plots the ROC Curve.
     Explanation: ROC Curve shows how well the model distinguishes between positive (flood) and negative (no flood) cases.
@@ -148,7 +148,7 @@ def plot_roc_curve(y_test, predict_prob_mlp):
 def plot_learning_curve(model, X, y):
     """
     Update Log:
-    10/15/24 Moved from main.py to evaluation.py
+    10/15/24 Moved from main.py to evaluation.py. Added Docstrings
 
     Function: Plots Learning curve.
     Explanation: Plots the Learning Curve to check on model learning; similar training and validation scores means good learning, while a gap indicates problems.

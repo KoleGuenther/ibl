@@ -5,7 +5,7 @@ import pandas as pd
 def save_model(model, file_path):
     """
     Update Log:
-    10/15/24 Added to save a model for safe keeping (backup)
+    10/15/24 Added to save a model for safe keeping (backup). Added Docstrings
 
     Saves the trained model to the specified file path.
 
@@ -20,7 +20,7 @@ def save_model(model, file_path):
 def save_predictions(predictions, test_index, output_file):
     """
     Update Log:
-    10/15/24 Moved from prediction.py to util.py
+    10/15/24 Moved from prediction.py to util.py. Added Docstrings
 
     Store predictions and saves them to a csv file in data.
 

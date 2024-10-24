@@ -7,7 +7,7 @@ import requests
 def load_and_prepare_data(file_path):
     """
     Update Log:
-    10/15/24 Changed variable names to make it more clear and understandable. Also changed column names that it splits into as 'lat' and 'long' instead of 'latitude' and 'longitude'
+    10/15/24 Changed variable names to make it more clear and understandable. Also changed column names that it splits into as 'lat' and 'long' instead of 'latitude' and 'longitude'. Added Docstrings
 
     Function: Splits the 'latlong' column of the csv file into 'lat' and 'long' columns, splitting at the comma.
 
@@ -34,7 +34,7 @@ def load_and_prepare_data(file_path):
 def add_elevation_data(pre_elevation_dataset):
     """
     Update Log:
-    10/15/24 Added more accurate variable names and parameters so that it is easily understandable.
+    10/15/24 Added more accurate variable names and parameters so that it is more understandable. Added Docstrings
 
     Function: Uses dataset with lat and long to add elevation data to the dataset using the Open-Meteo API.
 
@@ -96,7 +96,7 @@ def add_elevation_data(pre_elevation_dataset):
 def handle_missing_values(prepped_dataset, missing_value_placeholder):
     """
     Update Log:
-    10/15/24 Moved from main.py to make program more readable (and shorter) for the rest of the team. Made variable names and parameters readable as well.
+    10/15/24 Moved from main.py to make program more readable (and shorter) for the rest of the team. Made variable names and parameters readable as well. Added Docstrings
 
     Function: Replaces the specified placeholder values in the dataset with NaN, which then gets replaced with the mean of each column. This prevents errors and gets rid of extreme values that might sway the model.
 
@@ -134,7 +134,7 @@ def handle_missing_values(prepped_dataset, missing_value_placeholder):
 def scale_features(cleaned_dataset, feature_columns):
     """
     Update Log:
-    10/15/24 Moved from main.py to try and make program more readable for rest of the team. Changed variable names so that it is easier to understand.
+    10/15/24 Moved from main.py to try and make program more readable for rest of the team. Changed variable names so that it is easier to understand. Added Docstrings
 
     Function: Scales the data from the specified columns (parameter feature_columns) so that there is a mean of 0 and a standard deviation of 1, making the model training more efficient and consistent.
 
