@@ -17,7 +17,7 @@ output_file = 'data/test1.csv'
 # Model File - The Saved Model that will try to be loaded if the flag below is set to True
 model_file = 'models/101524Model'
 # Set flag to decide if a saved model should be used
-use_saved_model = False  # True to load the saved model, or False to train a new one
+use_saved_model = True  # True to load the saved model, or False to train a new one
 
 
 # Preprocessing Data
@@ -69,14 +69,14 @@ def train_model(data, labels):
     - mlp: Trained model.
     """
     mlp = MLPClassifier(
-        solver='lbfgs',
-        hidden_layer_sizes=(8, 4,),
-        max_iter=2000,
-        alpha=0.1,
+        solver='adam',
+        hidden_layer_sizes=(15, 8,),
+        max_iter=4000,
+        alpha=0.5,
         activation='relu',
         tol=1e-5,
         random_state=4,
-        learning_rate_init=0.001
+        learning_rate_init=0.005
     )
     mlp.fit(data, labels)
     return mlp
